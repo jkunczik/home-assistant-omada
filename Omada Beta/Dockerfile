@@ -13,7 +13,7 @@ ARG ARCH=${TARGETARCH:-${BUILD_ARCH:-}}
 
 # install version (major.minor only); OMADA_URL set in install.sh
 ARG INSTALL_VER="5.9"
-RUN chmod +x install.sh
+RUN chmod +x /install.sh /healthcheck.sh
 
 # install omada controller (instructions taken from install.sh)
 RUN /install.sh && rm /install.sh 

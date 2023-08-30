@@ -11,7 +11,7 @@ ARG ARCH=arm64
 
 COPY install.sh healthcheck.sh /
 
-RUN chmod +x /install.sh
+RUN chmod +x /install.sh /healthcheck.sh
 
 # install omada controller (instructions taken from install.sh); then create a user & group and set the appropriate file system permissions
 RUN /install.sh && rm /install.sh
