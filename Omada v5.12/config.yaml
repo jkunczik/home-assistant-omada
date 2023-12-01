@@ -1,6 +1,6 @@
 ---
 name: Omada Controller 5.12
-version: 5.12.7 (Stable)
+version: 5.12.7
 slug: omada_controller_5.12
 description: TP-Link Omada Controller software v5
 webui: https://[HOST]:[PORT:8043]
