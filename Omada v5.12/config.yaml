@@ -9,7 +9,7 @@ arch:
   - aarch64
   - amd64
 init: false
-url: https://github.com/chiefcomm/home-assistant-omada
+url: https://github.com/jkunczik/home-assistant-omada
 ports:
     8088/tcp: 8088
     8043/tcp: 8043
