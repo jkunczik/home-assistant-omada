@@ -4,23 +4,15 @@ FROM ${BASE}
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 LABEL org.opencontainers.image.source="https://github.com/mbentley/docker-omada-controller"
 
-COPY healthcheck.sh install.sh /
+COPY healthcheck.sh install.sh entrypoint.sh /
 
 # Home Assistant adds BUILD_ARCH, and buildx adds TARGETARCH; save the right one as ARCH
 ARG TARGETARCH
 ARG BUILD_ARCH
 ARG ARCH=${TARGETARCH:-${BUILD_ARCH:-}}
 
-# install version (major.minor only); OMADA_URL set in install.sh
-ARG INSTALL_VER="5.9"
-RUN chmod +x /install.sh /healthcheck.sh
-
 # install omada controller (instructions taken from install.sh)
-RUN /install.sh && rm /install.sh 
-
-COPY entrypoint-5.x.sh /entrypoint.sh
-
-RUN chmod +x entrypoint.sh
+RUN /install.sh && rm /install.sh
 
 WORKDIR /opt/tplink/EAPController/lib
 EXPOSE 8088 8043 8843 29810/udp 29811 29812 29813 29814
