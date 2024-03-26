@@ -20,6 +20,11 @@ OMADA_DIR="/opt/tplink/EAPController"
 PUID="${PUID:-508}"
 PGID="${PGID:-508}"
 
+bashio::log.info "Create 'logs' directory inside persistent /data volume, if it doesn't exist."
+mkdir -p "${OMADA_DIR}/data/logs"
+ln -s "${OMADA_DIR}/data/logs" "${OMADA_DIR}/logs"
+chown -R omada:omada "${OMADA_DIR}/logs"
+
 if bashio::config.true 'enable_hass_ssl'; then
   bashio::log.info "Use SSL from Home Assistant"
   SSL_CERT=$(bashio::config 'certfile')
@@ -238,7 +243,6 @@ else
   # no file found; set version to 0.0.0 as we don't know the last version
   LAST_RAN_OMADA_VER="0.0.0"
 fi
-
 
 bashio::log.info "Starting Omada Controller as user omada"
 

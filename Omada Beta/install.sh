@@ -96,8 +96,7 @@ echo "${OMADA_VER}" > "${OMADA_DIR}/IMAGE_OMADA_VER.txt"
 echo "**** Setup omada User Account ****"
 groupadd -g 508 omada
 useradd -u 508 -g 508 -d "${OMADA_DIR}" omada
-mkdir "${OMADA_DIR}/logs"
-chown -R omada:omada "${OMADA_DIR}/data" "${OMADA_DIR}/logs"
+chown -R omada:omada "${OMADA_DIR}/data"
 
 
 echo "**** Cleanup ****"
