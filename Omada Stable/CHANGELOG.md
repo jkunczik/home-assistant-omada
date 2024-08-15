@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.14.1 - 2024-08-14
+### Changed
+- Updated to the upstream version 5.14
+
 ## 5.13.3 - 2024-03-27
 
 - Updated to 5.13.30 image
