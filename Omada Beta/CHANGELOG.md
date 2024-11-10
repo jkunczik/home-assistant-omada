@@ -1,6 +1,6 @@
 # Changelog
 
-## 5.14.23.3 - 2024-11-10
+## 5.14.32.3 - 2024-11-10
 
 - Upgrade to 5.14.32.3
 - Fix SSL configuration
