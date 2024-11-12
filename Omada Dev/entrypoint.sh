@@ -1,8 +1,8 @@
 #!/usr/bin/env bashio
 
-# =====================================
+# ======================================
 # Home Assistant specific preprocessing
-# =====================================
+# ======================================
 
 # create data and logs dir, if not existing
 bashio::log.info "Create 'logs' directory inside persistent /data volume, if it doesn't exist."
@@ -35,7 +35,27 @@ if bashio::config.true 'enable_hass_ssl'; then
   bashio::log.info "SSL certificate: ${SSL_CERT_NAME}"
   SSL_KEY_NAME=$(bashio::config 'keyfile')
   bashio::log.info "SSL private key: ${SSL_KEY_NAME}"
+
+  # Put keys in /cert folder, this is how mbentley expects it, these are temporary files for new keystore
+  mkdir -p /cert
+  cp "$SSL_CERT_NAME" /cert/
+  cp "$SSL_KEY_NAME" /cert/
+
+  SSL_CERT_NAME="$(basename "$SSL_CERT_NAME")"
+  SSL_KEY_NAME="$(basename "$SSL_KEY_NAME")"
 fi
 
-# Source mbentley entrypoint script
+
+# ======================================
+# mbentley
+# ======================================
+
 source /mbentley/entrypoint-5.x.sh
+
+
+# ======================================
+# Home Assistant specific postprocessing
+# ======================================
+
+# Clean up cert and key
+rm -rf /cert
