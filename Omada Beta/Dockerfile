@@ -11,6 +11,7 @@ ARG BASE=mbentley/ubuntu:20.04
 FROM ${BASE}
 
 COPY healthcheck.sh install.sh /
+COPY mbentley/install.sh /mbentley/
 
 # Home Assistant adds BUILD_ARCH, and buildx adds TARGETARCH; save the right one as ARCH
 ARG TARGETARCH
@@ -22,10 +23,11 @@ ARG INSTALL_VER="5.14.32.3"
 ARG NO_MONGODB=false
 
 # install omada controller (instructions taken from install.sh)
-RUN /install.sh && rm /install.sh
+RUN /install.sh && rm /install.sh && rm /mbentley/install.sh
 
 # copy entrypoint after the installation, to avoid rebuilding whole image
 COPY entrypoint.sh /
+COPY mbentley/entrypoint-5.x.sh /mbentley/
 
 WORKDIR /opt/tplink/EAPController/lib
 EXPOSE 8088 8043 8843 29810/udp 29811 29812 29813 29814

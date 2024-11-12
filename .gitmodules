@@ -1,0 +1,3 @@
+[submodule "Omada Beta/mbentley"]
+	path = Omada Beta/mbentley
+	url = https://github.com/mbentley/docker-omada-controller.git
