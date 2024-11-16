@@ -54,7 +54,7 @@ jobs:
             echo "CONFIG_FILE=Omada Stable/config.yaml" >> $GITHUB_ENV
           else
             echo "IMAGE_NAME=${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-dev" >> $GITHUB_ENV
-            echo "CONFIG_FILE=Omada Beta/config.yaml" >> $GITHUB_ENV
+            echo "CONFIG_FILE=Omada Dev/config.yaml" >> $GITHUB_ENV
           fi
 
       - name: Set INSTALL_VER from config.yaml

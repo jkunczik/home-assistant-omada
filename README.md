@@ -31,15 +31,16 @@ Set `Enable Home Assistant SSL` to `true`, and enter the full path for:
 - `Certificate file`
 - `Private key`
 
-The default paths are compatible with the `LetsEncrypt` Add-On.
+The default paths are compatible with the `Letsencrypt` Add-On.
 
 ## Release a new version
 
 To update the controller to a new version, the following steps have to be done:
 
 1. Upgrade the mbentley submodule to the latest on `master`.
-2. Upgrade the version in `config.yaml` in either beta or stable.
-This version should match exactly with one for the versions listed [here](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
+2. Upgrade the version in `config.yaml` first in dev.
+Than upgrade either beta or stable for the release.
+This version should match exactly with one of the versions listed [here](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
 3. If everything is working as expected, you can create a new GitHub release.
 The tag should match the version in the config.yaml exactly.
 Otherwise the pipeline will fail.
