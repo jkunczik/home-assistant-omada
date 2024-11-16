@@ -1,8 +1,8 @@
 ---
 name: Omada Controller Beta
-image: dratrav/home-assistant-omada-beta # <-- comment out for local build
-version: 5.14.32.3
-slug: omada_controller
+image: jeruntu/home-assistant-omada-beta
+version: beta-5.15.6.4
+slug: omada_controller_beta
 description: TP-Link Omada Controller software
 webui: https://[HOST]:[PORT:8043]
 startup: application

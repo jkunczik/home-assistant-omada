@@ -1,8 +1,8 @@
 ---
-name: Omada Controller Stable
-image: jeruntu/home-assistant-omada-stable
-version: 5.14.32.4
-slug: omada_controller_stable
+name: Omada Controller Dev
+image: jeruntu/home-assistant-omada-dev
+version: beta-5.15.6.4
+slug: omada_controller_dev
 description: TP-Link Omada Controller software
 webui: https://[HOST]:[PORT:8043]
 startup: application

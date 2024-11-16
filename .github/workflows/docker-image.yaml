@@ -5,6 +5,8 @@ on:
     tags:
       - 'v*-stable'
       - 'v*-beta'
+    branches:
+      - '**'
 
 jobs:
   build-and-push:
@@ -12,67 +14,92 @@ jobs:
 
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
-          username: dratrav
+          username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Extract Docker tag from Git tag
+      - name: Extract Docker tag or branch
         id: version
         run: |
-          # Extract the Git tag name
-          GIT_TAG="${GITHUB_REF_NAME}"
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            DOCKER_TAG="${GITHUB_REF_NAME#v}"
+            DOCKER_TAG="${DOCKER_TAG%-*}"
+          else
+            DOCKER_TAG="latest"
+          fi
 
-          # Remove 'v' prefix and '-stable' or '-beta' suffix
-          DOCKER_TAG="${GIT_TAG#v}"          # Remove leading 'v'
-          DOCKER_TAG="${DOCKER_TAG%-*}"      # Remove trailing '-stable' or '-beta'
-
+          if [[ -z "$DOCKER_TAG" ]]; then
+            echo "Error: DOCKER_TAG is empty!" >&2
+            exit 1
+          fi
           echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_ENV
 
-      - name: Set image name and config file based on tag type
+      - name: Set image name and config file
         id: image_name
         run: |
           if [[ "${GITHUB_REF_NAME}" == *-beta ]]; then
-            echo "IMAGE_NAME=dratrav/home-assistant-omada-beta" >> $GITHUB_ENV
+            echo "IMAGE_NAME=${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-beta" >> $GITHUB_ENV
             echo "CONFIG_FILE=Omada Beta/config.yaml" >> $GITHUB_ENV
-            echo "DOCKERFILE_PATH=./Omada Beta/Dockerfile" >> $GITHUB_ENV
-            echo "CONTEXT_PATH=./Omada Beta" >> $GITHUB_ENV
           elif [[ "${GITHUB_REF_NAME}" == *-stable ]]; then
-            echo "IMAGE_NAME=dratrav/home-assistant-omada-stable" >> $GITHUB_ENV
+            echo "IMAGE_NAME=${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-stable" >> $GITHUB_ENV
             echo "CONFIG_FILE=Omada Stable/config.yaml" >> $GITHUB_ENV
-            echo "DOCKERFILE_PATH=./Omada Stable/Dockerfile" >> $GITHUB_ENV
-            echo "CONTEXT_PATH=./Omada Stable" >> $GITHUB_ENV
+          else
+            echo "IMAGE_NAME=${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-dev" >> $GITHUB_ENV
+            echo "CONFIG_FILE=Omada Dev/config.yaml" >> $GITHUB_ENV
           fi
 
-      - name: Install yq
+      - name: Set INSTALL_VER from config.yaml
         run: |
-          wget https://github.com/mikefarah/yq/releases/download/v4.27.3/yq_linux_amd64 -O /usr/local/bin/yq
-          chmod +x /usr/local/bin/yq
+          EXPECTED_TAG=$(yq '.version' "${CONFIG_FILE}")
+          echo "INSTALL_VER=$EXPECTED_TAG" >> $GITHUB_ENV
+
+      - name: Log key variables
+        run: |
+          echo "Docker Image Name: ${{ env.IMAGE_NAME }}"
+          echo "Docker Tag: ${{ env.DOCKER_TAG }}"
+          echo "Install Version: ${{ env.INSTALL_VER }}"
 
       - name: Verify Docker tag matches config.yaml
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
-          # Extract the expected tag from the config.yaml file
-          EXPECTED_TAG=$(yq '.version' "${CONFIG_FILE}")
-
-          # Check if the expected tag matches the extracted Docker tag
-          if [[ "${EXPECTED_TAG}" != "${DOCKER_TAG}" ]]; then
-            echo "Error: Docker tag (${DOCKER_TAG}) does not match expected tag (${EXPECTED_TAG}) in ${CONFIG_FILE}."
+          if [[ "${INSTALL_VER}" != "${DOCKER_TAG}" ]]; then
+            echo "Error: Docker tag (${DOCKER_TAG}) does not match expected tag (${INSTALL_VER}) in ${CONFIG_FILE}."
             exit 1
           fi
 
-      - name: Build and push Docker image
-        if: success()
-        uses: docker/build-push-action@v5
+      - name: Build Docker image for test builds
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            --file "./Omada Dev/Dockerfile" \
+            --build-arg INSTALL_VER=${{ env.INSTALL_VER }} \
+            --tag ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }} \
+            --cache-from=type=registry,ref=${{ env.IMAGE_NAME }}:cache \
+            --cache-to=type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max \
+            --load \
+            "./Omada Dev"
+
+      - name: Build and push Docker image for release builds
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: docker/build-push-action@v6
         with:
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:${{ env.DOCKER_TAG }}
           platforms: linux/amd64,linux/arm64
-          file: ${{ env.DOCKERFILE_PATH }}
-          context: ${{ env.CONTEXT_PATH }}
+          file: ./Omada Dev/Dockerfile
+          context: ./Omada Dev
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:cache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:cache,mode=max
+          build-args: |
+            INSTALL_VER=${{ env.INSTALL_VER }}
