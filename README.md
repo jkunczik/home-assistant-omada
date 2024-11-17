@@ -2,61 +2,86 @@
 
 ![CI](https://github.com/jkunczik/home-assistant-omada/workflows/Build%20and%20Push%20Multi-Platform%20Docker%20Image/badge.svg)
 
-This add-on brings the Omada Controller directly into Home Assistant running on an 64 bit ARM or a x64 processor.
+This add-on integrates the Omada Controller directly into Home Assistant, supporting both 64-bit ARM and x64 processors.
 
-There exist two Add-On-Versions:
+## Add-On Versions
 
-- Omada Stable
-- Omada Beta
-
-Omada Stable is created from Omada Beta (both in this repository), as soon as the beta add-on is updated to the latest
-stable upstream version. Omada Beta should also be fairly stable, because the Add-On is mostly consistent with the already tested [docker-omada-controller](https://github.com/mbentley/docker-omada-controller), but might contain some Home-Assistant related inconsistencies or bugs.
+- **Omada Stable**: Built from the Omada Beta once updated to the latest stable upstream version.
+- **Omada Beta**: Generally stable and based on the well-tested
+  [docker-omada-controller](https://github.com/mbentley/docker-omada-controller),
+but might contain minor Home Assistant-related inconsistencies or bugs.
 
 ## Installation
 
-Installing third-party repositories:
+To install this third-party add-on:
 
-1. Go to home assistant -> settings -> addons -> addon store
-2. Click the hamburger menu (The three dots in the top right corner)
-3. Click repositories
-4. At the bottom there should be a space to paste the GitHub link: https://github.com/jkunczik/home-assistant-omada
-5. You might have to refresh the page, but it should show up in the addon store under "Home Assistant Omada"
+1. Open **Home Assistant** > **Settings** > **Add-ons** > **Add-on Store**.
+2. Click the menu (three dots in the top-right corner) and select **Repositories**.
+3. Paste the GitHub repository link into the field at the bottom:  
+   `https://github.com/jkunczik/home-assistant-omada`.
+4. Refresh the page if needed. The add-on will appear under **Home Assistant Omada**.
 
-## Options
+## Configuration Options
 
-If you would like to use your own SSL certificate configured for Home Assistant with this Omada Add-On,
-it can be enabled in the configuration options.
-Set `Enable Home Assistant SSL` to `true`, and enter the full path for:
+To use a custom SSL certificate configured for Home Assistant:
 
-- `Certificate file`
-- `Private key`
+1. Enable **Enable Home Assistant SSL** in the add-on configuration.
+2. Provide the full paths to the:
+   1. **Certificate file**
+   2. **Private key**
+3. The default paths are compatible with the `LetsEncrypt` add-on.
 
-The default paths are compatible with the `Letsencrypt` Add-On.
+## Developing
 
-## Release a new version
+For local development, use the `Omada Dev` variant.
+This is where the source code resides and where changes can be made.
+Follow the steps below to build and test a new Docker image:
 
-To update the controller to a new version, the following steps have to be done:
+### Build the Docker Image
 
-1. Upgrade the mbentley submodule to the latest on `master`.
-2. Upgrade the version in `config.yaml` first in dev.
-Than upgrade either beta or stable for the release.
-This version should match exactly with one of the versions listed [here](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
-3. If everything is working as expected, you can create a new GitHub release.
-The tag should match the version in the config.yaml exactly.
-Otherwise the pipeline will fail.
+Set the desired version and build the image:
+
+```bash
+# INSTALL_VER should match the version in the config.yaml
+INSTALL_VER="5.14.32.4"
+docker build . -t omada_stable --build-arg "INSTALL_VER=$INSTALL_VER"
+```
+
+### Run the Docker Container Locally
+
+```bash
+docker run --rm -p 8043:8043 -v vol_omada_stable:/data omada_stable
+```
+
+Refer to the
+[Home Assistant Add-On Testing Documentation](https://developers.home-assistant.io/docs/add-ons/testing)
+for more details and best practices.
+
+### Releasing a New Version
+
+1. Update the `mbentley` submodule to the latest `master` branch.
+2. Update the version in `config.yaml` for either `beta` or `stable`.
+   Ensure the version matches one listed
+   [here](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
+3. Test the changes thoroughly in a local environment.
+   Once satisfied, create a pull request (PR) with the updates.
+4. After the PR is merged, create a GitHub release on the `master` branch,
+   ensuring the release tag matches the version specified in `config.yaml`.  
+   Note: The pipeline will fail if the tag and version do not match.
 
 ## Contribution
 
-This add-on is a fork of Matt Bentleys
-[docker-omada-cotroller](https://github.com/mbentley/docker-omada-controller),
-and jkunczik [home-assistant-omada](https://github.com/jkunczik/home-assistant-omada)
-would not have been possible without their excellent work.
-Other than in the original docker omada controller,
-this add-on stores all persistent data in the /data directory,
-so that it is compatible with Home assistant.
-This Add-On would not be possible without the effort of other people.
-Pull requests for version updates or new features are always more than welcome.
-Special thanks goes to DraTrav for pushing this Add-On forward!
+This add-on wraps Matt Bentley’s
+[docker-omada-controller](https://github.com/mbentley/docker-omada-controller),
+which is included as a Git submodule.
+Special thanks to DraTrav and contributors for advancing this project.
+This add-on was made possible thanks to their outstanding work.
+
+Key differences from the original:
+
+- Persistent data is stored in the `/data` directory, making it compatible with Home Assistant.
+
+Contributions are welcome! Feel free to submit pull requests for version updates, bug fixes, or new features.
 
 <a href="https://github.com/jkunczik/home-assistant-omada/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=jkunczik/home-assistant-omada" />
