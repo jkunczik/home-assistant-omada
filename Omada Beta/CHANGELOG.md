@@ -1,7 +1,14 @@
 # Changelog
 
+## beta-5.15.6.7 2024-11-30
+
+- Updated to the upstream version beta-5.15.6.7
+
 ## beta-5.15.6.4 2024-11-16
 
+- `WARNING` slug has changed.
+  This will make it look like the repository disappeared in HA.
+  Please export your configuration and import it again in a new installation.
 - Restructured the repostory, mbentley is now a submodule
 - Implemented pipeline
 - Updated to the upstream version beta-5.15.6.4
