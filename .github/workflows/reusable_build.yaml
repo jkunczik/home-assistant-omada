@@ -24,9 +24,10 @@ jobs:
         target: ${{ fromJson(inputs.targets) }}
 
     steps:
-      - name: Checkout the code
+      - name: Checkout the PR code
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           submodules: true
 
       - name: Set up Docker Buildx

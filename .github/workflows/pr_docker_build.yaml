@@ -1,11 +1,11 @@
 name: Pull Request Docker Build
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  pull_request_target
 
 jobs:
   pr-build:
+    # if: contains(github.event.pull_request.labels.*.name, 'approved-for-secrets')
     uses: ./.github/workflows/reusable_build.yaml
     with:
       targets: '["dev", "beta", "stable"]'
