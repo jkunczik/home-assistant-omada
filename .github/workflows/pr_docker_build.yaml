@@ -1,0 +1,13 @@
+name: Pull Request Docker Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-build:
+    uses: ./.github/workflows/reusable_build.yaml
+    with:
+      targets: '["dev", "beta", "stable"]'
+      docker_tag_suffix: "pr"
+    secrets: inherit

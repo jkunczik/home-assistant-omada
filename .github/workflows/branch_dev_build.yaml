@@ -1,0 +1,14 @@
+name: Branch-Specific Dev Build
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  branch-dev-build:
+    uses: ./.github/workflows/reusable_build.yaml
+    with:
+      targets: '["dev"]'
+      branch_name: ${{ github.ref_name }}
+    secrets: inherit
