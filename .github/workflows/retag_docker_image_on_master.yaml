@@ -1,0 +1,15 @@
+name: Retag Docker Images
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  retag:
+    uses: ./.github/workflows/reusable_build.yaml
+    with:
+      targets: '["dev", "beta", "stable"]'
+      docker_tag_suffix: "pr"
+      retag: true
+    secrets: inherit
