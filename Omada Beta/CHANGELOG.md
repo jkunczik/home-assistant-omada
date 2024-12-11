@@ -1,8 +1,8 @@
 # Changelog
 
-## beta-5.15.6.7 2024-11-30
+## 5.15.6.7 2024-12-12
 
-- Updated to the upstream version beta-5.15.6.7
+- Updated to the upstream version pre-release 5.15.6.7
 
 ## beta-5.15.6.4 2024-11-16
 
