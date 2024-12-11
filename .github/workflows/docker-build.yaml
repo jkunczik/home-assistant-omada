@@ -1,0 +1,37 @@
+name: Build Dev Docker Image
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  build-dev-no-push:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract Version and Set Tag
+        id: extract_version
+        run: |
+          CONFIG_FILE="Omada Dev/config.yaml"
+          VERSION=$(yq '.version' "${CONFIG_FILE}")
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Docker Tag: $VERSION"
+
+      - name: Build Docker Image
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --file "./Omada Dev/Dockerfile" \
+            --tag "home-assistant-omada-dev:${{ env.VERSION }}" \
+            --build-arg INSTALL_VER="${{ env.VERSION }}" \
+            "./Omada Dev"
