@@ -37,7 +37,7 @@ For local development, use the `Omada Dev` variant.
 This is where the source code resides and where changes can be made.
 Follow the steps below to build and test a new Docker image:
 
-### Build the Docker Image
+### Build the Docker Image Locally
 
 Set the desired version and build the image:
 
@@ -61,13 +61,12 @@ for more details and best practices.
 
 1. Update the `mbentley` submodule to the latest `master` branch.
 2. Update the version in `config.yaml` for either `beta` or `stable`.
-   Ensure the version matches one listed
-   [here](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
-3. Test the changes thoroughly in a local environment.
-   Once satisfied, create a pull request (PR) with the updates.
-4. After the PR is merged, create a GitHub release on the `master` branch,
-   ensuring the release tag matches the version specified in `config.yaml`.  
-   Note: The pipeline will fail if the tag and version do not match.
+   Ensure the version matches one listed in
+   [this script](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
+3. Thoroughly test the changes in a local environment.
+   Once the tests pass and you're satisfied, create a pull request (PR) with the updates.
+4. The pipeline will build docker images for every branch,
+   but only push the images to the registry on `master`.
 
 ## Contribution
 

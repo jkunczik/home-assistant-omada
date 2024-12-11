@@ -1,6 +1,5 @@
 ---
 name: Omada Controller Dev
-image: jeruntu/home-assistant-omada-dev
 version: beta-5.15.6.4
 slug: omada_controller_dev
 description: TP-Link Omada Controller software
