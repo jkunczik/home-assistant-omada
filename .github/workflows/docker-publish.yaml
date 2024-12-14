@@ -67,11 +67,11 @@ jobs:
           docker buildx build \
             --platform linux/${{ matrix.architecture }} \
             --file "./Omada Dev/Dockerfile" \
-            --tag "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION }}" \
+            --tag "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}-${{ matrix.architecture }}:${{ env.VERSION }}" \
             --push \
             --build-arg INSTALL_VER="${{ env.VERSION }}" \
             --cache-from "type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}-${{ matrix.architecture }}:cache" \
-            --cache-to "type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ matrix.architecture }}:cache,mode=max" \
+            --cache-to "type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}-${{ matrix.architecture }}:cache,mode=max" \
             "./Omada Dev"
 
       - name: Upload New Image Status
