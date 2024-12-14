@@ -28,7 +28,7 @@ jobs:
           echo "Docker Tag: $VERSION"
 
       - name: Check Omada Version Availability
-        uses: ./.github/workflows/version-checks.yaml
+        uses: ./.github/actions/version-checks
         with:
           version: "${{ env.VERSION }}"
 

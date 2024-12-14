@@ -1,0 +1,21 @@
+name: Check Omada Version Availability
+description: Check if the given Omada version is available
+inputs:
+  version:
+    description: The version to check
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Check Omada Version
+      shell: bash
+      run: |
+        URL="https://omada-controller-url.mbentley.net/hooks/omada_ver_to_url?omada-ver=${{ inputs.version }}"
+        OUTPUT=$(curl -sf "$URL")
+        if [ -z "$OUTPUT" ]; then
+          echo "Error: No output received from $URL"
+          exit 1
+        else
+          echo "Success: Received output"
+          echo "$OUTPUT"
+        fi
