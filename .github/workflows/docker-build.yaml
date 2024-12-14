@@ -27,6 +27,11 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Docker Tag: $VERSION"
 
+      - name: Check Omada Version Availability
+        uses: ./.github/actions/version-checks
+        with:
+          version: "${{ env.VERSION }}"
+
       - name: Build Docker Image
         run: |
           docker buildx build \
