@@ -11,10 +11,6 @@ jobs:
     strategy:
       matrix:
         target: ["beta", "stable"]
-        architecture: ["amd64", "arm64"]
-
-    outputs:
-      version: ${{ steps.extract_version.outputs.version }}
 
     steps:
       - name: Checkout the code
@@ -43,7 +39,6 @@ jobs:
           DOCKER_IMAGE="${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada"
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
           echo "Target: ${{ matrix.target }}"
@@ -55,66 +50,16 @@ jobs:
         run: |
           if docker manifest inspect "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION}}" > /dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
-            echo "false" > new_image.txt
           else
             echo "exists=false" >> $GITHUB_OUTPUT
-            echo "true" > new_image.txt
           fi
 
-      - name: Build and Push Docker Image
+      - name: Build and push
         if: steps.check_image.outputs.exists == 'false'
-        run: |
-          docker buildx build \
-            --platform linux/${{ matrix.architecture }} \
-            --file "./Omada Dev/Dockerfile" \
-            --tag "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}-${{ matrix.architecture }}:${{ env.VERSION }}" \
-            --push \
-            --build-arg INSTALL_VER="${{ env.VERSION }}" \
-            --cache-from "type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}-${{ matrix.architecture }}:cache" \
-            --cache-to "type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}-${{ matrix.architecture }}:cache,mode=max" \
-            "./Omada Dev"
-
-      - name: Upload New Image Status
-        uses: actions/upload-artifact@v4
+        uses: docker/build-push-action@v6
         with:
-          name: new-image-status-${{ matrix.target }}-${{ matrix.architecture }}
-          path: new_image.txt
-
-  create-manifest:
-    needs: build-and-push
-    runs-on: ubuntu-24.04
-    strategy:
-      matrix:
-        target: ["beta", "stable"]
-
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts/
-
-      - name: Check for New Images
-        run: |
-          NEW_IMAGE=false
-          for DIR in artifacts/new-image-status-${{ matrix.target }}-*; do
-            if grep -q "true" "$DIR/new_image.txt"; then
-              NEW_IMAGE=true
-              break
-            fi
-          done
-          echo "new_image=$NEW_IMAGE" >> $GITHUB_ENV
-
-      - name: Log in to Docker Hub
-        if: env.new_image == 'true'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USER_NAME }}
-          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
-      - name: Create and Push Multi-Architecture Manifest
-        if: env.new_image == 'true'
-        run: |
-          docker buildx imagetools create \
-            --tag "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}:${{ needs.build-and-push.outputs.version }}" \
-            "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}-amd64:${{ needs.build-and-push.outputs.version }}" \
-            "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}-arm64:${{ needs.build-and-push.outputs.version }}"
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION }}"
+          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:cache
+          cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:cache,mode=max
