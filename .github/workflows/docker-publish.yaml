@@ -58,6 +58,7 @@ jobs:
         if: steps.check_image.outputs.exists == 'false'
         uses: docker/build-push-action@v6
         with:
+          context: "Omada\ Dev"
           platforms: linux/amd64,linux/arm64
           push: true
           tags: "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION }}"
