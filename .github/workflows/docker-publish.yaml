@@ -93,16 +93,16 @@ jobs:
         run: |
           echo "Listing artifacts for target: ${{ matrix.target }}"
           ls -l artifacts/new-image-status-${{ matrix.target }}-*
-          for FILE in artifacts/new-image-status-${{ matrix.target }}-*; do
-            echo "Contents of $FILE:"
-            cat "$FILE"
+          for DIR in artifacts/new-image-status-${{ matrix.target }}-*; do
+            echo "Contents of $DIR/new_image.txt:"
+            cat "$DIR/new_image.txt"
           done
 
       - name: Check for New Images
         run: |
           NEW_IMAGE=false
-          for FILE in artifacts/new-image-status-${{ matrix.target }}-*; do
-            if grep -q "true" "$FILE"; then
+          for DIR in artifacts/new-image-status-${{ matrix.target }}-*; do
+            if grep -q "true" "$DIR/new_image.txt"; then
               NEW_IMAGE=true
               break
             fi
