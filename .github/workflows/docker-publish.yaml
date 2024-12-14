@@ -59,6 +59,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "Omada\ Dev"
+          build-args: INSTALL_VER=${{ env.VERSION }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION }}"
