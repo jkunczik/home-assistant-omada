@@ -13,6 +13,9 @@ jobs:
         target: ["beta", "stable"]
         architecture: ["amd64", "arm64"]
 
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
@@ -40,6 +43,7 @@ jobs:
           DOCKER_IMAGE="${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada"
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
           echo "Target: ${{ matrix.target }}"
@@ -89,15 +93,6 @@ jobs:
         with:
           path: artifacts/
 
-      - name: Debug Target Artifacts
-        run: |
-          echo "Listing artifacts for target: ${{ matrix.target }}"
-          ls -l artifacts/new-image-status-${{ matrix.target }}-*
-          for DIR in artifacts/new-image-status-${{ matrix.target }}-*; do
-            echo "Contents of $DIR/new_image.txt:"
-            cat "$DIR/new_image.txt"
-          done
-
       - name: Check for New Images
         run: |
           NEW_IMAGE=false
@@ -120,6 +115,6 @@ jobs:
         if: env.new_image == 'true'
         run: |
           docker buildx imagetools create \
-            --tag "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}:${{ env.VERSION }}" \
-            "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}-amd64:${{ env.VERSION }}" \
-            "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}-arm64:${{ env.VERSION }}"
+            --tag "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}:${{ needs.build-and-push.outputs.version }}" \
+            "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}-amd64:${{ needs.build-and-push.outputs.version }}" \
+            "${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada-${{ matrix.target }}-arm64:${{ needs.build-and-push.outputs.version }}"
