@@ -1,0 +1,26 @@
+name: Check Omada Versions on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check-omada-versions:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        target: ["Beta", "Stable", "Dev"]
+
+    steps:
+      - name: Extract Version and Set Tag
+        id: extract_version
+        run: |
+          VERSION=$(yq '.version' "Omada ${{ matrix.target }}/config.yaml")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Target ${{ matrix.target }} VERSION: $VERSION"
+
+      - name: Check Omada Version Availability
+        uses: ./.github/actions/version-checks
+        with:
+          version: "${{ env.VERSION }}"
