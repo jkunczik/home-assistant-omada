@@ -13,6 +13,11 @@ jobs:
         target: ["Beta", "Stable", "Dev"]
 
     steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
       - name: Extract Version and Set Tag
         id: extract_version
         run: |
