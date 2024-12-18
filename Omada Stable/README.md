@@ -8,7 +8,7 @@ as soon as the beta add-on is updated to the latest stable upstream version.
 ## Contribution
 
 This add-on is a fork of Matt Bentleys
-[docker-omada-cotroller](https://github.com/mbentley/docker-omada-controller)
+[docker-omada-controller](https://github.com/mbentley/docker-omada-controller)
 and jkunczik [home-assistant-omada](https://github.com/jkunczik/home-assistant-omada)
 would not have been possible without thier excellent work.
 Other than in the original docker omada controller,
