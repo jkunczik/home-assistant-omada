@@ -3,7 +3,7 @@
 This add-on brings the Omada Controller directly into Home Assistant running on an 64 bit ARM or a x64 processor.
 
 Omada Beta contains the most recent port of the
-[docker-omada-cotroller](https://github.com/mbentley/docker-omada-controller).
+[docker-omada-controller](https://github.com/mbentley/docker-omada-controller).
 If you need a more recent version, open an issue, or better submit a pull request.
 
 ## Contribution
