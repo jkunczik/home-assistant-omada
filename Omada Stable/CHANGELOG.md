@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.15.6.7 2024-12-27
+
+- Updated to Omada release 5.15.6.7
+
 ## 5.14.32.4 2024-11-16
 
 - Restructured the repostory, mbentley is now a submodule
