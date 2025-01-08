@@ -1,5 +1,9 @@
 # Changelog
 
+## beta-5.15.8.2-ha2 2025-01-8
+
+- Fix workaround 509 option being unavailable in the home assistant interface.
+
 ## beta-5.15.8.2-ha1 2025-01-8
 
 - Add option to use workaround 509 from `mbentley`.
