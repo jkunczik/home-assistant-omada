@@ -22,21 +22,21 @@ jobs:
         id: extract_version
         run: |
           CONFIG_FILE="Omada Dev/config.yaml"
-          VERSION=$(yq '.version' "${CONFIG_FILE}")
-
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Docker Tag: $VERSION"
+          VERSION_HA=$(yq '.version' "${CONFIG_FILE}")
+          VERSION_OMADA=$(echo $VERSION_HA | sed -E 's/-ha[0-9]+$//')
+          echo "VERSION_OMADA=$VERSION_OMADA" >> $GITHUB_ENV
+          echo "Docker Tag: $VERSION_OMADA"
 
       - name: Check Omada Version Availability
         uses: ./.github/actions/version-checks
         with:
-          version: "${{ env.VERSION }}"
+          version: "${{ env.VERSION_OMADA }}"
 
       - name: Build Docker Image
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
             --file "./Omada Dev/Dockerfile" \
-            --tag "home-assistant-omada-dev:${{ env.VERSION }}" \
-            --build-arg INSTALL_VER="${{ env.VERSION }}" \
+            --tag "home-assistant-omada-dev:${{ env.VERSION_OMADA }}" \
+            --build-arg INSTALL_VER="${{ env.VERSION_OMADA }}" \
             "./Omada Dev"

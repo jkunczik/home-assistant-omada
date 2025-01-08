@@ -21,11 +21,12 @@ jobs:
       - name: Extract Version and Set Tag
         id: extract_version
         run: |
-          VERSION=$(yq '.version' "Omada ${{ matrix.target }}/config.yaml")
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Target ${{ matrix.target }} VERSION: $VERSION"
+          VERSION_HA=$(yq '.version' "Omada ${{ matrix.target }}/config.yaml")
+          VERSION_OMADA=$(echo $VERSION_HA | sed -E 's/-ha[0-9]+$//')
+          echo "VERSION_OMADA=$VERSION_OMADA" >> $GITHUB_ENV
+          echo "Target ${{ matrix.target }} VERSION_OMADA: $VERSION_OMADA"
 
       - name: Check Omada Version Availability
         uses: ./.github/actions/version-checks
         with:
-          version: "${{ env.VERSION }}"
+          version: "${{ env.VERSION_OMADA }}"
