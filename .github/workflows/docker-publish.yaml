@@ -34,25 +34,26 @@ jobs:
             echo "$1" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'
           }
           CAPITALIZED_TARGET=$(capitalize "${{ matrix.target }}")
-          VERSION=$(yq '.version' "Omada ${CAPITALIZED_TARGET}/config.yaml")
+          VERSION_HA=$(yq '.version' "Omada ${CAPITALIZED_TARGET}/config.yaml")
+          VERSION_OMADA=$(echo $VERSION_HA | sed -E 's/-ha[0-9]+$//')
           DOCKER_IMAGE="${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada"
 
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VERSION_OMADA=$VERSION_OMADA" >> $GITHUB_ENV
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
           echo "Target: ${{ matrix.target }}"
-          echo "Version: $VERSION"
+          echo "Version Omada: $VERSION_OMADA"
           echo "Docker Image: $DOCKER_IMAGE"
 
       - name: Check Omada Version Availability
         uses: ./.github/actions/version-checks
         with:
-          version: "${{ env.VERSION }}"
+          version: "${{ env.VERSION_OMADA }}"
 
       - name: Check if Image Exists
         id: check_image
         run: |
-          if docker manifest inspect "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION}}" > /dev/null 2>&1; then
+          if docker manifest inspect "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION_OMADA }}" > /dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
@@ -63,9 +64,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "Omada\ Dev"
-          build-args: INSTALL_VER=${{ env.VERSION }}
+          build-args: INSTALL_VER=${{ env.VERSION_OMADA }}
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION }}"
+          tags: "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION_OMADA }}"
           cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:cache
           cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:cache,mode=max

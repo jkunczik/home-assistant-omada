@@ -1,5 +1,11 @@
 # Changelog
 
+## beta-5.15.8.2-ha1 2025-01-8
+
+- Add option to use workaround 509 from `mbentley`.
+- This also solves the bug that Omada does not start when it has not been set. #73
+- Omada is still on the same version: beta-5.15.8.2
+
 ## beta-5.15.8.2 2025-01-7
 
 - Updated to Omada version beta-5.15.8.2

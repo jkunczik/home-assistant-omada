@@ -45,6 +45,11 @@ if bashio::config.true 'enable_hass_ssl'; then
   SSL_KEY_NAME="$(basename "$SSL_KEY_NAME")"
 fi
 
+WORKAROUND_509=false
+if bashio::config.true 'enable_workaround_509'; then
+  bashio::log.info "Enable workaround for issue #509"
+  WORKAROUND_509=true
+fi
 
 # ======================================
 # mbentley
