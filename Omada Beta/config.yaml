@@ -17,6 +17,7 @@ options:
   enable_hass_ssl: false
   certfile: /ssl/fullchain.pem
   keyfile: /ssl/privkey.pem
+  enable_workaround_509: false
 schema:
   enable_hass_ssl: bool
   certfile: str
