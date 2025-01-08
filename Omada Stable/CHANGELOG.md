@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.15.6.7-ha1 2025-1-8
+
+- Added extra configuration option to enable workaround 509 from `mbentley`.
+  - Only try to enable this if you run into startup issues.
+- Omada is still at 5.15.6.7. When this new option is not enabled, nothing changes.
+
 ## 5.15.6.7 2024-12-27
 
 - Updated to Omada release 5.15.6.7
