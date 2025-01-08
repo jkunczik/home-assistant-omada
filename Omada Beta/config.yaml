@@ -1,7 +1,7 @@
 ---
 name: Omada Controller Beta
 image: jeruntu/home-assistant-omada-beta
-version: beta-5.15.8.2-ha1
+version: beta-5.15.8.2-ha2
 slug: omada_controller_beta
 description: TP-Link Omada Controller software
 webui: https://[HOST]:[PORT:8043]
@@ -22,6 +22,7 @@ schema:
   enable_hass_ssl: bool
   certfile: str
   keyfile: str
+  enable_workaround_509: bool
 ports:
   8088/tcp: 8088
   8043/tcp: 8043

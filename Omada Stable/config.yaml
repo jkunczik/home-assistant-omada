@@ -22,6 +22,7 @@ schema:
   enable_hass_ssl: bool
   certfile: str
   keyfile: str
+  enable_workaround_509: bool
 ports:
   8088/tcp: 8088
   8043/tcp: 8043
