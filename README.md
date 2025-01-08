@@ -63,6 +63,8 @@ for more details and best practices.
 2. Update the version in `config.yaml` for either `beta` or `stable`.
    Ensure the version matches one listed in
    [this script](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
+   If it is needed to make a new add-on release for the same Omada version,
+   a `-ha{d}` suffix can be added to the Omada version.
 3. Thoroughly test the changes in a local environment.
    Once the tests pass and you're satisfied, create a pull request (PR) with the updates.
 4. The pipeline will build docker images for every branch,
