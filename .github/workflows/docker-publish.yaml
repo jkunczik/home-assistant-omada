@@ -38,10 +38,12 @@ jobs:
           VERSION_OMADA=$(echo $VERSION_HA | sed -E 's/-ha[0-9]+$//')
           DOCKER_IMAGE="${{ secrets.DOCKER_USER_NAME }}/home-assistant-omada"
 
+          echo "VERSION_HA=$VERSION_HA" >> $GITHUB_ENV
           echo "VERSION_OMADA=$VERSION_OMADA" >> $GITHUB_ENV
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
 
           echo "Target: ${{ matrix.target }}"
+          echo "Version HA: $VERSION_HA"
           echo "Version Omada: $VERSION_OMADA"
           echo "Docker Image: $DOCKER_IMAGE"
 
@@ -53,7 +55,7 @@ jobs:
       - name: Check if Image Exists
         id: check_image
         run: |
-          if docker manifest inspect "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION_OMADA }}" > /dev/null 2>&1; then
+          if docker manifest inspect "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION_HA }}" > /dev/null 2>&1; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
@@ -67,6 +69,6 @@ jobs:
           build-args: INSTALL_VER=${{ env.VERSION_OMADA }}
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION_OMADA }}"
+          tags: "${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:${{ env.VERSION_HA }}"
           cache-from: type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:cache
           cache-to: type=registry,ref=${{ env.DOCKER_IMAGE }}-${{ matrix.target }}:cache,mode=max
