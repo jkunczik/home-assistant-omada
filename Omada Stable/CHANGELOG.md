@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.15.8.2 2025-01-14
+
+- Updated to Omada release 5.15.8.2
+
 ## 5.15.6.7-ha1 2025-1-8
 
 - Added extra configuration option to enable workaround 509 from `mbentley`.
