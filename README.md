@@ -31,6 +31,24 @@ To use a custom SSL certificate configured for Home Assistant:
    2. **Private key**
 3. The default paths are compatible with the `LetsEncrypt` add-on.
 
+## Cloudflare Tunnel
+
+If you are using a domain with Cloudflare for DNS,
+you can expose your local Home Assistant instance through a Cloudflare Tunnel.
+This eliminates the need to open a port on your local network or configure custom certificates.
+Cloudflare handles TLS, making this a safer and more streamlined solution.
+
+This [add-on](https://github.com/brenner-tobias/addon-cloudflared)
+simplifies the integration of the tunnel into Home Assistant.
+Additionally, Omada can be easily added as a secondary host alongside Home Assistant.
+
+Follow the documentation to configure Omada under `Additional Hosts` as follows:
+
+```yaml
+- hostname: {MY_HOME_ASSISTANT_DOMAIN}
+  service: https://{YOUR_LOCAL_HOME_ASSISTANT_IP}:8043
+```
+
 ## Developing
 
 For local development, use the `Omada Dev` variant.
