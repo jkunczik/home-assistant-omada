@@ -1,5 +1,9 @@
 # Changelog
 
+## beta-5.15.20.10 2025-01-25
+
+- Updated to Omada version beta-5.15.20.10
+
 ## beta-5.15.8.2-ha2 2025-01-8
 
 - Fix workaround 509 option being unavailable in the home assistant interface.
