@@ -11,7 +11,7 @@ If you need a more recent version, open an issue, or better submit a pull reques
 This add-on is a fork of Matt Bentleys
 [docker-omada-controller](https://github.com/mbentley/docker-omada-controller),
 and jkunczik [home-assistant-omada](https://github.com/jkunczik/home-assistant-omada)
-would not have been possible without thier excellent work.
+would not have been possible without their excellent work.
 Other than in the original docker omada controller,
 this add-on stores all persistent data in the /data directory,
 so that it is compatible with Home assistant.
