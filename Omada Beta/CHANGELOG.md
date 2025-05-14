@@ -1,5 +1,9 @@
 # Changelog
 
+## beta-5.15.24.14 2025-05-15
+
+- Updated to Omada version beta-5.15.24.14
+
 ## beta-5.15.20.16 2025-03-20
 
 - Updated to Omada version beta-5.15.20.16
