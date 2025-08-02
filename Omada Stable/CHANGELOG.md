@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.15.24.19 2025-08-02
+
+- Updated to Omada release 5.15.24.19
+
 ## 5.15.24.18 2025-07-03
 
 - Updated to Omada release 5.15.24.18
