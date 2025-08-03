@@ -51,6 +51,9 @@ if bashio::config.true 'enable_workaround_509'; then
   WORKAROUND_509=true
 fi
 
+# Don't use rootless mode for this Add-On
+ROOTLESS=false
+
 # ======================================
 # mbentley
 # ======================================
