@@ -6,6 +6,8 @@ Omada Beta contains the most recent port of the
 [docker-omada-controller](https://github.com/mbentley/docker-omada-controller).
 If you need a more recent version, open an issue, or better submit a pull request.
 
+For upgrade from v5 to v6 please read the notes on [docker-omada-controller](https://github.com/mbentley/docker-omada-controller).
+
 ## Contribution
 
 This add-on is a fork of Matt Bentleys
