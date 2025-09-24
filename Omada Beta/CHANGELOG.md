@@ -1,5 +1,9 @@
 # Changelog
 
+## beta-6.0.0.23 2025-09-24
+
+- Updated to Omada version beta-6.0.0.23
+
 ## beta-5.15.24.17-ha1 2025-06-19
 
 - Updated mbentley submodule
