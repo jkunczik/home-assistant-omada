@@ -2,7 +2,15 @@
 
 ## beta-6.0.0.23 2025-09-24
 
+- `WARNING` This is a major version upgrade!
+  - This needs a clean install from scratch, since the MongoDB database had a major version bump.
+  1. Please backup your settings with export function on the `https://<ip-address-or-hostname>:8043/#maintenance` page first.
+  1. Then uninstall the Add-On, and choose the option to permanantly remove persistent data.
+  1. Now perform a new install of Add-On.
 - Updated to Omada version beta-6.0.0.23
+- Use a new Ubuntu 24.04 base image. (This is needed for the new MongoDB 8.x version).
+- Update mbently submodule to adopt new version 6 changes.
+- Add healthcheck for Watchdog functionality.
 
 ## beta-5.15.24.17-ha1 2025-06-19
 

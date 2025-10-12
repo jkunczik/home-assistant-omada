@@ -58,7 +58,7 @@ ROOTLESS=false
 # mbentley
 # ======================================
 
-source /mbentley/entrypoint-5.x.sh
+source /mbentley/entrypoint.sh
 
 
 # ======================================
