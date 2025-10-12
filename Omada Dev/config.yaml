@@ -1,6 +1,6 @@
 ---
 name: Omada Controller Dev
-version: 5.15.6.7
+version: beta-6.0.0.23
 slug: omada_controller_dev
 description: TP-Link Omada Controller software
 webui: https://[HOST]:[PORT:8043]
