@@ -1,15 +1,15 @@
 # Changelog
 
 ## Major Version release 6.0.0.25 2025-12-04
-WARNING This is a major version upgrade!
-Version 6.0.0.25 needs a clean install from scratch, since the MongoDB database had a major version bump.
-Please backup your settings with export function on the https://<ip-address-or-hostname>:8043/#maintenance page first.
-Then uninstall the Add-On, and choose the option to permanantly remove persistent data.
-Now perform a new install of Add-On.
-Updated to Omada version 6.0.0.25
-Use a new Ubuntu 24.04 base image. (This is needed for the new MongoDB 8.x version).
-Update mbently submodule to adopt new version 6 changes.
-Add healthcheck for Watchdog functionality.
+- 'WARNING' This is a major version upgrade!
+  - Version 6.0.0.25 needs a clean install from scratch, since the MongoDB database had a major version bump.
+  1. Please backup your settings with export function on the https://<ip-address-or-hostname>:8043/#maintenance page first.
+  1. Then uninstall the Add-On, and choose the option to permanantly remove persistent data.
+  1. Now perform a new install of Add-On.
+- Updated to Omada version 6.0.0.25
+- Use a new Ubuntu 24.04 base image. (This is needed for the new MongoDB 8.x version).
+- Update mbently submodule to adopt new version 6 changes.
+- Add healthcheck for Watchdog functionality.
 
 ## 5.15.24.19 2025-08-02
 
