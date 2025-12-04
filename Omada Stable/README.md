@@ -5,6 +5,8 @@ This add-on brings the Omada Controller directly into Home Assistant running on 
 Omada Stable is created from Omada Beta (both in this repository),
 as soon as the beta add-on is updated to the latest stable upstream version.
 
+For upgrade from v5 to v6 please read the notes on [docker-omada-controller](https://github.com/mbentley/docker-omada-controller).
+
 ## Contribution
 
 This add-on is a fork of Matt Bentleys
