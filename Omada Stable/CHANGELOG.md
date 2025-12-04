@@ -1,7 +1,7 @@
 # Changelog
 
 ## Major Version release 6.0.0.25 2025-12-04
-- 'WARNING' This is a major version upgrade!
+- `WARNING` This is a major version upgrade!
   - Version 6.0.0.25 needs a clean install from scratch, since the MongoDB database had a major version bump.
   1. Please backup your settings with export function on the https://<ip-address-or-hostname>:8043/#maintenance page first.
   1. Then uninstall the Add-On, and choose the option to permanantly remove persistent data.
