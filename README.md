@@ -4,12 +4,14 @@
 
 This add-on integrates the Omada Controller directly into Home Assistant, supporting both 64-bit ARM and x64 processors.
 
+**NOTE** To upgrade to v6, install the new `Omada Stable v6` add-on! 
+This requires manually backing up the old stable v5 add-on and apply it to the new stable v6 add-on.
+
 ## Add-On Versions
 
-- **Omada Stable**: Built from the Omada Beta once updated to the latest stable upstream version.
-- **Omada Beta**: Generally stable and based on the well-tested
-  [docker-omada-controller](https://github.com/mbentley/docker-omada-controller),
-but might contain minor Home Assistant-related inconsistencies or bugs.
+- **Omada Stable v6**: This is the new stable branch, starting from the new major version 6.
+- **Omada Stable**: Old stable branch for Omada v5 releases
+- **Omada Beta**: Omada beta releases
 
 ## Installation
 
