@@ -9,6 +9,3 @@ configuration:
   certfile:
     name: Certificate File
     description: Path to the Certificate File.
-  enable_workaround_509:
-    name: Enable Workaround 509
-    description: Workaround 509 from mbentley.

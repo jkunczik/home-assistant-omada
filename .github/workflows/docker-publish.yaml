@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        target: ["beta", "stable"]
+        target: ["beta", "stable", "stable-v6"]
 
     steps:
       - name: Checkout the code
@@ -31,7 +31,7 @@ jobs:
         id: extract_version
         run: |
           capitalize() {
-            echo "$1" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'
+            echo "$1" | tr '-' ' '| awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'
           }
           CAPITALIZED_TARGET=$(capitalize "${{ matrix.target }}")
           VERSION_HA=$(yq '.version' "Omada ${CAPITALIZED_TARGET}/config.yaml")
