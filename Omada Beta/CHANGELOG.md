@@ -1,5 +1,10 @@
 # Changelog
 
+## beta-6.1.0.10 2025-12-12
+
+- Updated to Omada version beta-6.1.0.10
+  - `WARNING` v6 is a major version please read previous release notes if upgrading from v5
+
 ## beta-6.0.0.24 2025-11-01
 
 - `WARNING` This is a major version upgrade!
