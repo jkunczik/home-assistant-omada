@@ -1,7 +1,7 @@
 # Home Assistant Omada Add-On v6
 
 This add-on brings the Omada Controller v6 directly into Home Assistant running on an ARM, x64 or x86 processor.
-Version 6 no longer works on a Raspberry Pi 4 due to the new Mongo DB version being not campatible with that instruction set.
+Version 6 no longer works on a Raspberry Pi 4 due to the new Mongo DB version being not compatible with that instruction set.
 
 ## Contribution
 
