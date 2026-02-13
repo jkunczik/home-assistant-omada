@@ -1,5 +1,9 @@
 # Changelog
 
+## beta-6.2.0.12 2026-02-14
+
+- Updated to Omada version beta-6.2.0.12
+
 ## beta-6.1.0.19-ha2 2026-01-26
 
 - Add stop_timeout of 60 seconds and S6_SERVICES_GRACETIME for graceful MongoDB shutdown,
