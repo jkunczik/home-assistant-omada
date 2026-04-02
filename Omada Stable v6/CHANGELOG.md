@@ -1,5 +1,9 @@
 # Changelog
 
+## Version release 6.2.0.17 2026-04-02
+
+- Updated to Omada version 6.2.0.17
+
 ## 6.1.0.19-ha1 2026-01-31
 
 - **Architecture Overhaul:**
