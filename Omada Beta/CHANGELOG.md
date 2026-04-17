@@ -1,5 +1,9 @@
 # Changelog
 
+## beta-6.2.10.15 2026-04-18
+
+- Updated to Omada version beta-6.2.10.15
+
 ## beta-6.2.10.11 2026-04-04
 
 - Updated to Omada version beta-6.2.10.11
