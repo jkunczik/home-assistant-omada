@@ -29,3 +29,5 @@ schema:
   show_mongodb_logs: bool
   show_server_logs: bool
 host_network: true
+privileged:
+  - SYS_RESOURCE
