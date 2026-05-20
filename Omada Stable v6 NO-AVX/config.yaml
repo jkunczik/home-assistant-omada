@@ -21,7 +21,6 @@ options:
   upgrade_https_port: 8043
   show_mongodb_logs: false
   show_server_logs: true
-  fix_mongodb_memory: false
 schema:
   enable_hass_ssl: bool
   certfile: str
@@ -29,5 +28,4 @@ schema:
   upgrade_https_port: int
   show_mongodb_logs: bool
   show_server_logs: bool
-  fix_mongodb_memory: bool
 host_network: true

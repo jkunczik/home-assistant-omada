@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        target: ["dev", "no-avx"]
+        target: ["dev", "no-avx", "haos"]
 
     steps:
       - name: Checkout the code
@@ -30,6 +30,11 @@ jobs:
             echo "DOCKERFILE=./Omada Dev/noavx.dockerfile" >> $GITHUB_ENV
             echo "PLATFORMS=linux/amd64" >> $GITHUB_ENV
             echo "TAG_PREFIX=home-assistant-omada-v6-no-avx" >> $GITHUB_ENV
+          elif [[ "$TARGET" == "haos" ]]; then
+            echo "CONFIG_FILE=Omada Stable v6 (HA OS)/config.yaml" >> $GITHUB_ENV
+            echo "DOCKERFILE=./Omada Dev/haos.dockerfile" >> $GITHUB_ENV
+            echo "PLATFORMS=linux/arm64" >> $GITHUB_ENV
+            echo "TAG_PREFIX=home-assistant-omada-v6-haos" >> $GITHUB_ENV
           else
             echo "CONFIG_FILE=Omada Dev/config.yaml" >> $GITHUB_ENV
             echo "DOCKERFILE=./Omada Dev/Dockerfile" >> $GITHUB_ENV

@@ -8,23 +8,6 @@ LOG_DIR="/opt/tplink/EAPController/logs"
 mkdir -p "$DATA_DIR" "$LOG_DIR"
 chown -R 508:508 "$DATA_DIR" "$LOG_DIR"
 
-if bashio::config.true 'fix_mongodb_memory'; then
-    bashio::log.warning "fix_mongodb_memory enabled: reducing mmap randomization for tcmalloc"
-    # Preferred: lower vm.mmap_rnd_bits on the host kernel so tcmalloc can find 1GB-aligned regions.
-    # Requires CAP_SYS_ADMIN; silently skipped if the container lacks the capability.
-    if echo 28 > /proc/sys/vm/mmap_rnd_bits 2>/dev/null; then
-        bashio::log.warning "fix_mongodb_memory: vm.mmap_rnd_bits set to 28"
-    elif command -v setarch >/dev/null 2>&1; then
-        # Fallback: disable ASLR for the mongod process only (less effective in containers).
-        bashio::log.warning "fix_mongodb_memory: sysctl not writable, falling back to setarch -R"
-        exec setarch "$(uname -m)" -R gosu 508:508 mongod \
-            --dbpath "$DATA_DIR" --port 27217 --bind_ip 127.0.0.1 \
-            --logpath "$LOG_DIR/mongod.log" --logappend
-    else
-        bashio::log.warning "fix_mongodb_memory: no fix could be applied (no sysctl access, no setarch)"
-    fi
-fi
-
 exec gosu 508:508 mongod \
     --dbpath "$DATA_DIR" --port 27217 --bind_ip 127.0.0.1 \
     --logpath "$LOG_DIR/mongod.log" --logappend

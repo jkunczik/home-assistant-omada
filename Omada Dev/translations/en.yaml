@@ -15,10 +15,3 @@ configuration:
   show_server_logs:
     name: Show Server Logs
     description: Enable this to see the main Omada Controller server logs. Defaults to true.
-  fix_mongodb_memory:
-    name: Fix MongoDB Memory Allocation
-    description: >-
-      Disables address space randomization (ASLR) for the MongoDB process to fix
-      tcmalloc mmap alignment failures. Enable this if MongoDB crashes with
-      "MmapAligned() failed" or "Out of memory trying to allocate internal tcmalloc data"
-      errors (common on Raspberry Pi 5 and other platforms with limited virtual address space).

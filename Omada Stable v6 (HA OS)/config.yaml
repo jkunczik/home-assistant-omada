@@ -1,15 +1,14 @@
 ---
-name: Omada Controller Stable v6
-image: jeruntu/home-assistant-omada-stable-v6
+name: Omada Controller Stable v6 (HA OS)
+image: jeruntu/home-assistant-omada-stable-v6-haos
 version: 6.2.10.17
-slug: omada_controller_stable_v6
-description: TP-Link Omada Controller software
+slug: omada_controller_stable_v6_haos
+description: TP-Link Omada Controller software for Raspberry Pi 5 on Home Assistant OS
 webui: https://[HOST]:[PORT:8043]
 startup: application
 stop_timeout: 60
 arch:
   - aarch64
-  - amd64
 init: false
 url: https://github.com/jkunczik/home-assistant-omada
 map:

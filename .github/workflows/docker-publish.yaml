@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        target: ["beta", "stable", "stable-v6", "stable-no-avx"]
+        target: ["beta", "stable", "stable-v6", "stable-no-avx", "stable-v6-haos"]
 
     steps:
       - name: Checkout the code
@@ -39,6 +39,10 @@ jobs:
             DIR_NAME="Omada Stable v6 NO-AVX"
             DOCKERFILE_PATH="Omada Dev/noavx.dockerfile"
             PLATFORMS="linux/amd64"
+          elif [[ "$TARGET" == "stable-v6-haos" ]]; then
+            DIR_NAME="Omada Stable v6 (HA OS)"
+            DOCKERFILE_PATH="Omada Dev/haos.dockerfile"
+            PLATFORMS="linux/arm64"
           else
             # Standard capitalization logic for other targets
             CAPITALIZED=$(echo "$TARGET" | tr '-' ' ' | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
