@@ -16,6 +16,7 @@ esac
 ARCH="${1:-${DEFAULT_ARCH}}"
 VERSION="${2:-beta-6.0.0.23}"
 IMAGE_NAME="${3:-omada-dev:test}"
+FIX_MONGODB_MEMORY="${FIX_MONGODB_MEMORY:-false}"
 TEST_DIR="/tmp/omada_test_$(date +%s)"
 
 echo "Usage: $0 [ARCH] [VERSION] [IMAGE_NAME]"
@@ -40,7 +41,11 @@ cat > "${TEST_DIR}/data/options.json" <<EOF
 {
   "enable_hass_ssl": false,
   "certfile": "/ssl/fullchain.pem",
-  "keyfile": "/ssl/privkey.pem"
+  "keyfile": "/ssl/privkey.pem",
+  "upgrade_https_port": 8043,
+  "show_mongodb_logs": false,
+  "show_server_logs": true,
+  "fix_mongodb_memory": ${FIX_MONGODB_MEMORY}
 }
 EOF
 

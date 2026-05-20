@@ -2,25 +2,22 @@
 
 bashio::log.info "Starting internal MongoDB..."
 
-# Define paths
 DATA_DIR="/opt/tplink/EAPController/data/db"
 LOG_DIR="/opt/tplink/EAPController/logs"
 
-# Create directories if they don't exist
-if [ ! -d "$DATA_DIR" ]; then
-    mkdir -p "$DATA_DIR"
-fi
-if [ ! -d "$LOG_DIR" ]; then
-    mkdir -p "$LOG_DIR"
+mkdir -p "$DATA_DIR" "$LOG_DIR"
+chown -R 508:508 "$DATA_DIR" "$LOG_DIR"
+
+if bashio::config.true 'fix_mongodb_memory'; then
+    bashio::log.warning "fix_mongodb_memory enabled: disabling ASLR to fix tcmalloc mmap alignment failures"
+    if command -v setarch >/dev/null 2>&1; then
+        exec setarch "$(uname -m)" -R gosu 508:508 mongod \
+            --dbpath "$DATA_DIR" --port 27217 --bind_ip 127.0.0.1 \
+            --logpath "$LOG_DIR/mongod.log" --logappend
+    fi
+    bashio::log.warning "setarch not found; starting mongod without ASLR fix (ensure util-linux is installed)"
 fi
 
-# Set permissions (Omada user is usually 508:508)
-# PUID/PGID defaults to 508.
-# We should probably run as the same user.
-# But for now, let's just ensure ownership.
-chown -R 508:508 "$DATA_DIR"
-chown -R 508:508 "$LOG_DIR"
-
-# Start MongoDB
-# We run as omada user (508)
-exec gosu 508:508 mongod --dbpath "$DATA_DIR" --port 27217 --bind_ip 127.0.0.1 --logpath "$LOG_DIR/mongod.log" --logappend
+exec gosu 508:508 mongod \
+    --dbpath "$DATA_DIR" --port 27217 --bind_ip 127.0.0.1 \
+    --logpath "$LOG_DIR/mongod.log" --logappend

@@ -20,6 +20,7 @@ apt-get update
 apt-get install --no-install-recommends -y \
   ca-certificates \
   unzip \
+  util-linux \
   wget \
   gosu \
   libharfbuzz0b \
