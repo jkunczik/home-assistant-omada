@@ -9,10 +9,15 @@ This requires manually backing up the old stable v5 add-on and apply it to the n
 
 ## Add-On Versions
 
-- **Omada Stable v6**: The new stable branch, starting from Omada major version 6.
+- **Omada Stable v6**: The standard stable branch for Omada major version 6.
   - **Requires:** Modern x86_64 CPU (with AVX support) OR ARM64 CPU with ARMv8.2 support (e.g. Raspberry Pi 5).
   - **Incompatible with:** Raspberry Pi 4 (ARMv8.0) and older x86 CPUs without AVX.
-- **Omada Stable v6 NO-AVX**: A special variant of the v6 add-on for older hardware.
+  - **Not recommended for:** Raspberry Pi 5 running **Home Assistant OS** — use the HA OS variant below instead.
+- **Omada Stable v6 (HA OS)**: A variant of the v6 add-on for Raspberry Pi 5 running Home Assistant OS.
+  - **Designed for:** Raspberry Pi 5 + Home Assistant OS only.
+  - **Uses MongoDB 7.0** (Ubuntu 22.04 base) to avoid a tcmalloc memory allocation crash that occurs when running MongoDB 8.0 inside HA OS containers on ARM64.
+  - **Not for:** HA Supervised on Raspberry Pi OS, or any x86-64 setup — use the standard Stable v6 instead.
+- **Omada Stable v6 NO-AVX**: A variant of the v6 add-on for older x86-64 hardware without AVX support.
   - **Designed for:** Older x86_64 CPUs (e.g., Celeron J1900, older Pentium/Xeon) that lack AVX instructions.
   - **Note:** This does **NOT** enable support for Raspberry Pi 4 (which fails due to missing ARMv8.2 instructions, unrelated to AVX).
 - **Omada Stable**: The legacy stable branch for Omada v5.
@@ -103,11 +108,13 @@ for more details on how to test within a full Home Assistant environment.
 
 ### Releasing a New Version
 
-1. Update the version in `config.yaml` for either `beta` or `stable`.
+1. Update the version in `config.yaml` for the relevant variant(s).
    Ensure the version matches one listed in
    [this script](https://github.com/mbentley/docker-omada-controller-url/blob/master/omada_ver_to_url.sh).
    If it is needed to make a new add-on release for the same Omada version,
    a `-ha{d}` suffix can be added to the Omada version.
+   - When releasing a new Omada version, update both `Omada Stable v6` and `Omada Stable v6 (HA OS)`
+     to keep them in sync.
 2. Thoroughly test the changes in a local environment.
    Once the tests pass and you're satisfied, create a pull request (PR) with the updates.
 3. The pipeline will build docker images for every branch,
