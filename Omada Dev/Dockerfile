@@ -1,8 +1,8 @@
 ARG BUILD_ARCH=amd64
 # Define base images for different architectures
 FROM ghcr.io/home-assistant/amd64-base-ubuntu:24.04 AS base-amd64
-FROM ghcr.io/home-assistant/aarch64-base-ubuntu:24.04 AS base-arm64
-FROM ghcr.io/home-assistant/aarch64-base-ubuntu:24.04 AS base-aarch64
+FROM ghcr.io/home-assistant/aarch64-base-ubuntu:22.04 AS base-arm64
+FROM ghcr.io/home-assistant/aarch64-base-ubuntu:22.04 AS base-aarch64
 
 # TARGETARCH is set by buildx ('arm64'); BUILD_ARCH is set by HA supervisor ('aarch64').
 # Fall back from TARGETARCH to BUILD_ARCH so both build paths select the right base.
