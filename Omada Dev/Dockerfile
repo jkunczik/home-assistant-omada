@@ -2,11 +2,13 @@ ARG BUILD_ARCH=amd64
 # Define base images for different architectures
 FROM ghcr.io/home-assistant/amd64-base-ubuntu:24.04 AS base-amd64
 FROM ghcr.io/home-assistant/aarch64-base-ubuntu:24.04 AS base-arm64
+FROM ghcr.io/home-assistant/aarch64-base-ubuntu:24.04 AS base-aarch64
 
-# Select the correct base image based on TARGETARCH (injected by buildx)
-# TARGETARCH is 'amd64' or 'arm64'
+# TARGETARCH is set by buildx ('arm64'); BUILD_ARCH is set by HA supervisor ('aarch64').
+# Fall back from TARGETARCH to BUILD_ARCH so both build paths select the right base.
 ARG TARGETARCH
-FROM base-${TARGETARCH}
+ARG BUILD_ARCH=amd64
+FROM base-${TARGETARCH:-${BUILD_ARCH}}
 
 COPY install.sh /
 COPY healthcheck.sh /
@@ -16,8 +18,9 @@ ARG TARGETARCH
 ARG BUILD_ARCH
 ARG ARCH=${TARGETARCH:-${BUILD_ARCH:-}}
 
-# install version (major.minor or full version); OMADA_URL set in install.sh
-ARG INSTALL_VER
+# HA supervisor passes the add-on version as BUILD_VERSION; buildx/test_dev.sh pass INSTALL_VER directly.
+ARG BUILD_VERSION
+ARG INSTALL_VER=${BUILD_VERSION}
 
 # install omada controller (instructions taken from install.sh)
 RUN /install.sh && rm /install.sh
