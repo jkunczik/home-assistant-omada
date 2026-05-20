@@ -49,10 +49,20 @@ echo "Installing Omada Controller v${OMADA_VER} (Major: ${OMADA_MAJOR_VER}) for 
 
 # Install MongoDB
 if [ "${OMADA_MAJOR_VER}" = "6" ]; then
-  # Install MongoDB 8.0 for Omada v6
   apt-get install --no-install-recommends -y gnupg
-  wget -q -O - https://www.mongodb.org/static/pgp/server-8.0.asc | gpg -o /etc/apt/keyrings/mongodb-server-8.0.gpg --dearmor
-  echo "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/mongodb-server-8.0.gpg] https://repo.mongodb.org/apt/ubuntu $(eval "$(grep '^VERSION_CODENAME=' /etc/os-release)"; echo "${VERSION_CODENAME}")/mongodb-org/8.0 multiverse" > /etc/apt/sources.list.d/mongodb-org-8.0.list
+  if [ "${ARCH}" = "arm64" ]; then
+    # MongoDB 8.0 on ARM64 fails to start: its tcmalloc requires 1GB-aligned mmap regions
+    # that are unavailable in containers on Raspberry Pi 5 and similar hardware.
+    # MongoDB 7.0 uses an older tcmalloc without this requirement and is compatible with Omada v6.
+    MONGO_VER="7.0"
+  else
+    MONGO_VER="8.0"
+  fi
+  wget -q -O - "https://www.mongodb.org/static/pgp/server-${MONGO_VER}.asc" \
+    | gpg -o "/etc/apt/keyrings/mongodb-server-${MONGO_VER}.gpg" --dearmor
+  eval "$(grep '^VERSION_CODENAME=' /etc/os-release)"
+  echo "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/mongodb-server-${MONGO_VER}.gpg] https://repo.mongodb.org/apt/ubuntu ${VERSION_CODENAME}/mongodb-org/${MONGO_VER} multiverse" \
+    > "/etc/apt/sources.list.d/mongodb-org-${MONGO_VER}.list"
   apt-get update
   apt-get install --no-install-recommends -y mongodb-org-server
 else
