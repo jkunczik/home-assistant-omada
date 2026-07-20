@@ -1,5 +1,9 @@
 # Changelog
 
+## Version release 6.2.14.11 2026-07-20
+
+- Updated to Omada version 6.2.14.11
+
 ## 6.2.10.17
 
 - Initial release of the HA OS variant.
