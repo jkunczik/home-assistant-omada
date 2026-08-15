@@ -1,5 +1,9 @@
 # Changelog
 
+## beta-6.3.0.43 2026-08-15
+
+- Updated to Omada version beta-6.3.0.43
+
 ## beta-6.3.0.42 2026-08-06
 
 - Updated to Omada version beta-6.3.0.42
