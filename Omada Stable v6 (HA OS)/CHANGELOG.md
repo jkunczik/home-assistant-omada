@@ -1,5 +1,9 @@
 # Changelog
 
+## Version release 6.3.0.44 2026-08-30
+
+- Updated to Omada version 6.3.0.44
+
 ## Version release 6.2.14.11 2026-07-20
 
 - Updated to Omada version 6.2.14.11
