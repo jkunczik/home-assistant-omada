@@ -4,6 +4,8 @@ This add-on brings the Omada Controller Beta directly into Home Assistant.
 
 For upgrade from v5 to v6 please read the notes on the main README.
 
+For upgrade to v6.4 from v6.3 (or lower) please read the notes on the main README.
+
 ## Contribution
 
 This add-on was originally inspired by Matt Bentleys
