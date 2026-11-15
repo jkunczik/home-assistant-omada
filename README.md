@@ -26,6 +26,9 @@ This requires manually backing up the old stable v5 add-on and apply it to the n
 
 **NOTE:** To upgrade from v5 to v6, you must install the new `Omada Stable v6` add-on separately. This requires manually backing up your v5 configuration (via the Omada web interface) and restoring it into the new v6 instance. Automatic migration is not supported.
 
+**NOTE:** To upgrade from v6.3 (or lower) to v6.4, you must install the new `Omada Stable v6.4.x` add-on separately. This requires manually backing up your v6.3.x configuration (via the Omada web interface) and restoring it into the new v6.4 instance. Automatic migration is not supported. `Devices running firmware that 6.4 no longer supports block the upgrade. The container refuses to start, without changing your data, until you update them using v6.3`
+
+
 ## Installation
 
 To install this third-party add-on:
