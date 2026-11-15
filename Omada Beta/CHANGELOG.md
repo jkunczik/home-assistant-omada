@@ -1,5 +1,14 @@
 # Changelog
 
+## beta-6.4.0.25 2026-11-16
+
+- Updated to Omada version beta-6.4.0.25
+  - `WARNING` v6.4 adds new upgrade requirements. Read 6.4 - Upgrade Requirements and take a backup before upgrading. In short:
+  - `WARNING You must upgrade from v6.3`; 6.2 and older can't upgrade directly
+  - Devices running firmware that 6.4 no longer supports block the upgrade. The container refuses to start, without changing your data, until you update them using 6.3
+  - The firmware upgrade port is now 8044/tcp
+  - External MongoDB must be 4.0 or newer
+
 ## beta-6.3.0.111 2026-10-11
 
 - Updated to Omada version beta-6.3.0.111
