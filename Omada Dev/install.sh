@@ -74,9 +74,17 @@ else
 fi
 
 # Install Java
-if [ "${OMADA_MAJOR_VER}" = "6" ] || ([ "${OMADA_MAJOR_VER}" = "5" ] && [ "$(echo "${OMADA_VER}" | cut -d. -f2)" -ge 4 ]); then
+OMADA_MINOR_VER="$(echo "${OMADA_VER}" | cut -d. -f2)"
+OMADA_MINOR_VER="${OMADA_MINOR_VER:-0}"
+
+if [ "${OMADA_MAJOR_VER}" = "6" ] && [ "${OMADA_MINOR_VER}" -ge 4 ]; then
+  # Omada 6.4+ -> Java 21
+  apt-get install --no-install-recommends -y openjdk-21-jre-headless
+elif [ "${OMADA_MAJOR_VER}" = "6" ] || { [ "${OMADA_MAJOR_VER}" = "5" ] && [ "${OMADA_MINOR_VER}" -ge 4 ]; }; then
+  # Omada 6.0-6.3 and 5.4+ -> Java 17
   apt-get install --no-install-recommends -y openjdk-17-jre-headless
 else
+  # Older releases -> Java 8
   apt-get install --no-install-recommends -y openjdk-8-jre-headless
 fi
 
